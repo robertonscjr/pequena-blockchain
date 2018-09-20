@@ -1,21 +1,21 @@
 #include <stdio.h>
 
 typedef struct {
-    int sender;
-    int valor;
+	int sender;
+	int valor;
 } transacao;
 
 typedef struct {
 	int index;
 	int timestamp;
 	transacao dado[1000];
-    int quantidade_transacoes;
+	int quantidade_transacoes;
 	int hash_anterior;
 	int hash;
 } bloco;
 
 typedef struct {
-    bloco cadeia[100];	
+	bloco cadeia[100];	
 } blockchain;
 
 void enviar_dinheiro() {
@@ -44,44 +44,44 @@ int _obter_timestamp() {
 
 // TODO: IMPLEMENTAR CALCULO DO HASH DE UM BLOCO
 int _obter_hash(int index, int timestamp, int hash_anterior) {
-    return timestamp * (hash_anterior + index);
+	return timestamp * (hash_anterior + index);
 }
 
 int main() {
-    // OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
-    blockchain mytinyblockchain;
-    int contador_blocos = 0;
+	// OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
+	blockchain mytinyblockchain;
+	int contador_blocos = 0;
 
-    // BLOCO GÊNESIS
+	// BLOCO GÊNESIS
 	bloco genesis;
 
-    // O CONTADOR DE BLOCOS DEFINE O INDEX DE UM BLOCO
+	// O CONTADOR DE BLOCOS DEFINE O INDEX DE UM BLOCO
 	genesis.index = contador_blocos;
 
-    // O TIMESTAMP É CALCULADO COM A HORA DO SISTEMA
+	// O TIMESTAMP É CALCULADO COM A HORA DO SISTEMA
 	genesis.timestamp = _obter_timestamp();
 
-    //  7 = SATOSHI MANJAMUITO
-    //  0 = ALICE
-    //  1 = BOB
-    genesis.dado[0].sender = 7;
-    genesis.dado[0].valor = 1000;
-    genesis.dado[1].sender = 7;
-    genesis.dado[1].valor = 1000;
-    genesis.quantidade_transacoes = 2;
+	//  7 = SATOSHI MANJAMUITO
+	//  0 = ALICE
+	//  1 = BOB
+	genesis.dado[0].sender = 7;
+	genesis.dado[0].valor = 1000;
+	genesis.dado[1].sender = 7;
+	genesis.dado[1].valor = 1000;
+	genesis.quantidade_transacoes = 2;
 
-    // HASH ANTERIOR É ARBITRÁRIO NO BLOCO GÊNESIS
+	// HASH ANTERIOR É ARBITRÁRIO NO BLOCO GÊNESIS
 	genesis.hash_anterior = 0;
 
-    // CÁLCULO DO HASH DO BLOCO GÊNESIS
+	// CÁLCULO DO HASH DO BLOCO GÊNESIS
 	genesis.hash = _obter_hash(genesis.index, genesis.timestamp,
-                               genesis.hash_anterior);
+							   genesis.hash_anterior);
 
-    mytinyblockchain.cadeia[contador_blocos] = genesis;
+	mytinyblockchain.cadeia[contador_blocos] = genesis;
 
-    // ARRAY E CONTADOR DAS TRANSACOES PENDENTES
-    transacao transacoes_pendentes[1000];
-    int contador_transacoes_pendentes = 0;
+	// ARRAY E CONTADOR DAS TRANSACOES PENDENTES
+	transacao transacoes_pendentes[1000];
+	int contador_transacoes_pendentes = 0;
 
 	int opcao = 1;
 	do {
