@@ -2,6 +2,7 @@
 
 typedef struct {
 	int sender;
+	int receiver;
 	int valor;
 } transacao;
 
@@ -65,8 +66,11 @@ int main() {
 	//  0 = ALICE
 	//  1 = BOB
 	genesis.dado[0].sender = 7;
+	genesis.dado[0].receiver = 0;
 	genesis.dado[0].valor = 1000;
+
 	genesis.dado[1].sender = 7;
+	genesis.dado[1].receiver = 1;
 	genesis.dado[1].valor = 1000;
 	genesis.quantidade_transacoes = 2;
 
