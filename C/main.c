@@ -28,13 +28,11 @@ void exibir_saldo() {
 }
 
 void minerar_bloco() {
-	// prototipo
-	printf("Minerar um bloco\n");
-	bloco proximo_bloco;
+	// RECEBE UM ARRAY COM AS TRANSAÇÕES PENDENTES
+		
+	// CRIA UM NOVO BLOCO
+	bloco novo_bloco;
 
-	proximo_bloco.index = proximo_bloco.index+1;
-	proximo_bloco.timestamp = _obter_timestamp; 
-	proximo_bloco.hash = _obter_hash;
 
 }
 
@@ -55,10 +53,15 @@ int _obter_hash(int index, int timestamp, int hash_anterior) {
 	return timestamp * (hash_anterior + index);
 }
 
+// CONTADOR DE BLOCOS
+int contador_blocos = 0;
+// ARRAY E CONTADOR DAS TRANSACOES PENDENTES
+transacao transacoes_pendentes[1000];
+int contador_transacoes_pendentes = 0;
+
 int main() {
 	// OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
 	blockchain mytinyblockchain;
-	int contador_blocos = 0;
 
 	// BLOCO GÊNESIS
 	bloco genesis;
@@ -90,9 +93,7 @@ int main() {
 
 	mytinyblockchain.cadeia[contador_blocos] = genesis;
 
-	// ARRAY E CONTADOR DAS TRANSACOES PENDENTES
-	transacao transacoes_pendentes[1000];
-	int contador_transacoes_pendentes = 0;
+	
 
 	int opcao = 1;
 	do {
