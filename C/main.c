@@ -28,6 +28,7 @@ void exibir_saldo() {
 }
 
 void minerar_bloco() {
+	// prototipo
 	printf("Minerar um bloco\n");
 	bloco proximo_bloco;
 
