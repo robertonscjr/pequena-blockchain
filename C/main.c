@@ -29,6 +29,12 @@ void exibir_saldo() {
 
 void minerar_bloco() {
 	printf("Minerar um bloco\n");
+	bloco proximo_bloco;
+
+	proximo_bloco.index = proximo_bloco.index+1;
+	proximo_bloco.timestamp = _obter_timestamp; 
+	proximo_bloco.hash = _obter_hash;
+
 }
 
 void exibir_transacoes_pendentes() {
