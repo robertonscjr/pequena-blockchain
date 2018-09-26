@@ -31,19 +31,19 @@ void minerar_bloco() {
 	int i;
 	//ITERA A PARTIR DA QUANTIDADE DE TRANSACOES PENDENTES PULANDO O BLOCO GENESIS
 	for(i = 1; i < contador_transacoes_pendentes+1; i++){
-		mytinyblockchain.cadeia[i].index = i;
-		mytinyblockchain.cadeia[i].timestamp = _obter_timestamp;
-		
-		mytinyblockchain.cadeia[i].dado[i].sender = transacoes_pendentes[i].sender;
-		mytinyblockchain.cadeia[i].dado[i].receiver = transacoes_pendentes[i].receiver; 
-		mytinyblockchain.cadeia[i].dado[i].valor = transacoes_pendentes[i].valor;
-		
-		mytinyblockchain.cadeia[i].quantidade_transacoes;
-		mytinyblockchain.cadeia[i].hash_anterior = mytinyblockchain.cadeia[i-1].hash;
-		mytinyblockchain.cadeia[i].hash = _obter_hash;
+	    mytinyblockchain.cadeia[i + contador_blocos].index = i;
+    	mytinyblockchain.cadeia[i + contador_blocos].timestamp = _obter_timestamp;
 
-		contador_blocos += 1;
-	}
+	    mytinyblockchain.cadeia[i + contador_blocos].dado[i + contador_blocos].sender = transacoes_pendentes[i + contador_blocos].sender;
+    	mytinyblockchain.cadeia[i + contador_blocos].dado[i + contador_blocos].receiver = transacoes_pendentes[i + contador_blocos].receiver; 
+		mytinyblockchain.cadeia[i + contador_blocos].dado[i + contador_blocos].valor = transacoes_pendentes[i + contador_blocos].valor;
+		
+	    mytinyblockchain.cadeia[i + contador_blocos].quantidade_transacoes;
+	    mytinyblockchain.cadeia[i + contador_blocos].hash_anterior = mytinyblockchain.cadeia[i-1 + contador_blocos].hash;
+	    mytinyblockchain.cadeia[i + contador_blocos].hash = _obter_hash;
+        
+	    contador_blocos += 1;
+        }
 
 }
 
