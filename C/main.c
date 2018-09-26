@@ -27,12 +27,23 @@ void exibir_saldo() {
 	printf("Exibir saldo\n");
 }
 
-void minerar_bloco() {
-	// RECEBE UM ARRAY COM AS TRANSAÇÕES PENDENTES
+void minerar_bloco() {	
+	int i;
+	//ITERA A PARTIR DA QUANTIDADE DE TRANSACOES PENDENTES PULANDO O BLOCO GENESIS
+	for(i = 1; i < contador_transacoes_pendentes+1; i++){
+		mytinyblockchain.cadeia[i].index = i;
+		mytinyblockchain.cadeia[i].timestamp = _obter_timestamp;
 		
-	// CRIA UM NOVO BLOCO
-	bloco novo_bloco;
+		mytinyblockchain.cadeia[i].dado[i].sender = 0; //TODO: UTILIZAR A REFERENCIA 
+		mytinyblockchain.cadeia[i].dado[i].receiver = 0; //TODO: UTILIZAR A REFERENCIA 
+		mytinyblockchain.cadeia[i].dado[i].valor = 0; //TODO: UTILIZAR A REFERENCIA 
+		
+		mytinyblockchain.cadeia[i].quantidade_transacoes;
+		mytinyblockchain.cadeia[i].hash_anterior = mytinyblockchain.cadeia[i-1].hash;
+		mytinyblockchain.cadeia[i].hash = _obter_hash;
 
+		contador_blocos += 1;
+	}
 
 }
 
@@ -53,16 +64,19 @@ int _obter_hash(int index, int timestamp, int hash_anterior) {
 	return timestamp * (hash_anterior + index);
 }
 
+
+// OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
+blockchain mytinyblockchain;
+
 // CONTADOR DE BLOCOS
 int contador_blocos = 0;
+
 // ARRAY E CONTADOR DAS TRANSACOES PENDENTES
 transacao transacoes_pendentes[1000];
 int contador_transacoes_pendentes = 0;
 
-int main() {
-	// OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
-	blockchain mytinyblockchain;
 
+int main() {
 	// BLOCO GÊNESIS
 	bloco genesis;
 
@@ -93,7 +107,6 @@ int main() {
 
 	mytinyblockchain.cadeia[contador_blocos] = genesis;
 
-	
 
 	int opcao = 1;
 	do {
