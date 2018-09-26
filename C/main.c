@@ -34,9 +34,9 @@ void minerar_bloco() {
 		mytinyblockchain.cadeia[i].index = i;
 		mytinyblockchain.cadeia[i].timestamp = _obter_timestamp;
 		
-		mytinyblockchain.cadeia[i].dado[i].sender = 0; //TODO: UTILIZAR A REFERENCIA 
-		mytinyblockchain.cadeia[i].dado[i].receiver = 0; //TODO: UTILIZAR A REFERENCIA 
-		mytinyblockchain.cadeia[i].dado[i].valor = 0; //TODO: UTILIZAR A REFERENCIA 
+		mytinyblockchain.cadeia[i].dado[i].sender = transacoes_pendentes[i].sender;
+		mytinyblockchain.cadeia[i].dado[i].receiver = transacoes_pendentes[i].receiver; 
+		mytinyblockchain.cadeia[i].dado[i].valor = transacoes_pendentes[i].valor;
 		
 		mytinyblockchain.cadeia[i].quantidade_transacoes;
 		mytinyblockchain.cadeia[i].hash_anterior = mytinyblockchain.cadeia[i-1].hash;
