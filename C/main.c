@@ -19,6 +19,15 @@ typedef struct {
 	bloco cadeia[100];	
 } blockchain;
 
+// OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
+blockchain mytinyblockchain;
+int contador_blocos = 0;
+
+// ARRAY E CONTADOR DAS TRANSACOES PENDENTES
+transacao transacoes_pendentes[1000];
+int contador_transacoes_pendentes = 0;
+
+
 void enviar_dinheiro() {
 	printf("Enviar dinheiro\n");
 }
@@ -27,7 +36,8 @@ void exibir_saldo() {
 	printf("Exibir saldo\n");
 }
 
-void minerar_bloco() {	
+void minerar_bloco() {
+    printf("Minera bloco\n");
 	int i;
 	//ITERA A PARTIR DA QUANTIDADE DE TRANSACOES PENDENTES PULANDO O BLOCO GENESIS
 	for(i = 1; i < contador_transacoes_pendentes+1; i++){
@@ -65,18 +75,10 @@ int _obter_hash(int index, int timestamp, int hash_anterior) {
 }
 
 
-// OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
-blockchain mytinyblockchain;
-
-// CONTADOR DE BLOCOS
-int contador_blocos = 0;
-
-// ARRAY E CONTADOR DAS TRANSACOES PENDENTES
-transacao transacoes_pendentes[1000];
-int contador_transacoes_pendentes = 0;
-
 
 int main() {
+
+
 	// BLOCO GÊNESIS
 	bloco genesis;
 
