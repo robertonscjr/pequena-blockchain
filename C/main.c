@@ -55,6 +55,8 @@ void enviar_dinheiro() {
 	}
 
 	contador_transacoes_pendentes++;
+	printf("Transacao adicionada ao buffer de transacoes a serem mineradas\n");
+	printf("Para efetivar a transacao, minere um bloco\n");
 }
 
 void exibir_saldo() {
@@ -108,6 +110,18 @@ void minerar_bloco() {
 
 void exibir_transacoes_pendentes() {
 	printf("Exibir transações pendentes\n");
+
+	int i;
+	printf("\nTransacoes pendentes:\n");
+	for(i = 0; i < contador_transacoes_pendentes; i++) {
+		printf("%d - ", i);
+		if(transacoes_pendentes[i].sender == 0) {
+			printf("Alice envia %d para Bob\n", transacoes_pendentes[i].valor);
+		}
+		if(transacoes_pendentes[i].sender == 1) {
+			printf("Bob envia %d para Alice\n", transacoes_pendentes[i].valor);
+		}
+	}
 }
 
 void sair() {
