@@ -28,6 +28,33 @@ int contador_transacoes_pendentes;
 
 void enviar_dinheiro() {
 	printf("Enviar dinheiro\n");
+
+	int sender;
+	int valor;
+    printf("Sender (0 para Alice e 1 para Bob): ");
+	scanf("%d", &sender);
+
+	if(sender != 0 && sender != 1) {
+	    printf("Escolha 0 (Alice) ou 1 (Bob) como sender\n");
+		return;
+	}
+
+    printf("Valor: ");
+	scanf("%d", &valor);
+
+	if(sender == 0) {
+		transacoes_pendentes[contador_transacoes_pendentes].sender = 0;
+		transacoes_pendentes[contador_transacoes_pendentes].receiver = 1;
+		transacoes_pendentes[contador_transacoes_pendentes].valor = valor;
+	}
+
+	if(sender == 1) {
+		transacoes_pendentes[contador_transacoes_pendentes].sender = 1;
+		transacoes_pendentes[contador_transacoes_pendentes].receiver = 0;
+		transacoes_pendentes[contador_transacoes_pendentes].valor = valor;
+	}
+
+	contador_transacoes_pendentes++;
 }
 
 void exibir_saldo() {
@@ -60,6 +87,7 @@ void minerar_bloco() {
 	new_block.quantidade_transacoes = current_block.quantidade_transacoes;
 
 	printf("Inserindo transacoes pendentes no novo bloco\n");
+	printf("Quantidade transacoes pendentes: %d\n", contador_transacoes_pendentes);
 	int total_transacoes_novo_bloco = new_block.quantidade_transacoes + contador_transacoes_pendentes;
 
 	for(i = new_block.quantidade_transacoes; i < total_transacoes_novo_bloco; i++) {
