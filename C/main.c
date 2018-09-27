@@ -61,6 +61,29 @@ void enviar_dinheiro() {
 
 void exibir_saldo() {
 	printf("Exibir saldo\n");
+	
+	int contadorAlice = 0;
+	int contadorBob = 0;
+	bloco recebido = mytinyblockchain.cadeia[contador_blocos - 1];
+
+	int i;
+	for(i = 0; i < recebido.quantidade_transacoes; i++) {
+		if(recebido.dado[i].sender == 7) {
+			contadorAlice = 1000;
+			contadorBob = 1000;
+		}
+		else {
+			if (recebido.dado[i].sender == 0 && recebido.dado[i].receiver == 1) {
+				contadorAlice -= recebido.dado[i].valor;
+				contadorBob += recebido.dado[i].valor;
+			} else {
+				contadorBob -= recebido.dado[i].valor;
+				contadorAlice += recebido.dado[i].valor;
+			}
+		}
+	}
+	
+	printf("Alice: %d\nBob: %d\n" , contadorAlice, contadorBob);
 }
 
 void minerar_bloco() {
