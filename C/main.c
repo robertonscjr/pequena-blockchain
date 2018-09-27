@@ -60,7 +60,32 @@ void enviar_dinheiro() {
 }
 
 void exibir_saldo() {
+	
 	printf("Exibir saldo\n");
+	
+	int contadorAlice = 0;
+	int contadorBob = 0;
+  bloco recebido;
+  size_t tamanho_array_dado = sizeof(recebido.dado)/sizeof(int);
+
+	for(int i = 0; i < tamanho_array_dado; i++) {
+		if(recebido.dado[i].sender == 7) {
+			contadorAlice = 1000;
+      contadorBob = 1000;
+		}
+
+    if (recebido.dado[i].sender == 0 && recebido.dado[i].receiver == 1) {
+      contadorAlice -= recebido.dado[i].valor;
+      contadorBob += recebido.dado[i].valor;
+    } else {
+      contadorBob -= recebido.dado[i].valor;
+      contadorAlice += recebido.dado[i].valor;
+        }
+	}
+	
+	printf("Alice: %d\n Bob: %d\n" , contadorAlice, contadorBob);
+
+
 }
 
 void minerar_bloco() {
