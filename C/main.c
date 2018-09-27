@@ -43,17 +43,23 @@ void minerar_bloco() {
 	for(i = 1; i < contador_transacoes_pendentes+1; i++){
 		bloco block = mytinyblockchain.cadeia[i + contador_blocos];
 
+		//DETERMINA O INDEX DO BLOCO
 	    block.index = i + contador_blocos;
+		//DETERMINA O TEMPO DE ADICAO DO BLOCO A BLOCKCHAIN
     	block.timestamp = _obter_timestamp();
 
+		//ADICIONA O SENDER, RECEIVER E O VALOR AO BLOCO 
 	    block.dado[i + contador_blocos].sender = transacoes_pendentes[i + contador_blocos].sender;
     	block.dado[i + contador_blocos].receiver = transacoes_pendentes[i + contador_blocos].receiver; 
 		block.dado[i + contador_blocos].valor = transacoes_pendentes[i + contador_blocos].valor;
 		
 	    block.quantidade_transacoes;
+		//DETERMINA O HASH DO BLOCO ANTERIOR
 	    block.hash_anterior = mytinyblockchain.cadeia[i-1 + contador_blocos].hash;
+		//DETERMINA O HASH DESSE BLOCO
 	    block.hash = _obter_hash(block.index, block.timestamp, block.hash_anterior);
         
+		//IMPRIME O BLOCO ADICIONADO A BLOCKCHAIN A CADA ITERACAO
 		printf( "Block #%s: %s" , block.index, block.hash);
 	    contador_blocos += 1;
         }
