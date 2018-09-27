@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 typedef struct {
 	int sender;
@@ -19,6 +20,12 @@ typedef struct {
 	bloco cadeia[100];	
 } blockchain;
 
+blockchain mytinyblockchain;
+int contador_blocos;
+
+transacao transacoes_pendentes[1000];
+int contador_transacoes_pendentes;
+
 void enviar_dinheiro() {
 	printf("Enviar dinheiro\n");
 }
@@ -28,7 +35,47 @@ void exibir_saldo() {
 }
 
 void minerar_bloco() {
-	printf("Minerar um bloco\n");
+    printf("Minera bloco\n");
+
+	// LAST BLOCK
+	printf("Recebendo ultimo bloco\n");
+	bloco current_block = mytinyblockchain.cadeia[contador_blocos - 1];
+
+	// CREATING A NEW BLOCK
+	printf("Instanciando novo bloco\n");
+	bloco new_block;
+
+	new_block.index = contador_blocos;
+    new_block.timestamp = _obter_timestamp();
+	new_block.hash_anterior = current_block.hash;
+	new_block.hash = _obter_hash(new_block.index, new_block.timestamp,
+					             new_block.hash_anterior);
+
+	printf("Novo bloco instanciado, copiando transacoes do ultimo bloco\n");
+
+	int i;
+	for(i = 0; i < current_block.quantidade_transacoes; i++){
+		new_block.dado[i] = current_block.dado[i];
+	}
+	new_block.quantidade_transacoes = current_block.quantidade_transacoes;
+
+	printf("Inserindo transacoes pendentes no novo bloco\n");
+	int total_transacoes_novo_bloco = new_block.quantidade_transacoes + contador_transacoes_pendentes;
+
+	for(i = new_block.quantidade_transacoes; i < total_transacoes_novo_bloco; i++) {
+		new_block.dado[i].sender = transacoes_pendentes[i - new_block.quantidade_transacoes].sender;
+		new_block.dado[i].receiver = transacoes_pendentes[i - new_block.quantidade_transacoes].receiver;
+		new_block.dado[i].valor = transacoes_pendentes[i - new_block.quantidade_transacoes].valor;
+	}
+
+	new_block.quantidade_transacoes += contador_transacoes_pendentes;
+
+	printf("Registrando novo bloco na blockchain\n");
+	mytinyblockchain.cadeia[contador_blocos] = new_block;
+	contador_blocos++;
+	contador_transacoes_pendentes = 0;
+
+	printf( "Bloco %d registrado. Hash: %d\n" , new_block.index, new_block.hash);
 }
 
 void exibir_transacoes_pendentes() {
@@ -43,23 +90,13 @@ int _obter_timestamp() {
 	return (int)time(NULL);
 }
 
-// TODO: IMPLEMENTAR CALCULO DO HASH DE UM BLOCO
 int _obter_hash(int index, int timestamp, int hash_anterior) {
 	return timestamp * (hash_anterior + index);
 }
 
-int main() {
-	// OBJETO DA BLOCKCHAIN E O CONTADOR DOS BLOCOS
-	blockchain mytinyblockchain;
-	int contador_blocos = 0;
-
-	// BLOCO GÊNESIS
+void minerar_bloco_genesis() {
 	bloco genesis;
-
-	// O CONTADOR DE BLOCOS DEFINE O INDEX DE UM BLOCO
 	genesis.index = contador_blocos;
-
-	// O TIMESTAMP É CALCULADO COM A HORA DO SISTEMA
 	genesis.timestamp = _obter_timestamp();
 
 	//  7 = SATOSHI MANJAMUITO
@@ -74,18 +111,19 @@ int main() {
 	genesis.dado[1].valor = 1000;
 	genesis.quantidade_transacoes = 2;
 
-	// HASH ANTERIOR É ARBITRÁRIO NO BLOCO GÊNESIS
 	genesis.hash_anterior = 0;
-
-	// CÁLCULO DO HASH DO BLOCO GÊNESIS
 	genesis.hash = _obter_hash(genesis.index, genesis.timestamp,
 							   genesis.hash_anterior);
 
 	mytinyblockchain.cadeia[contador_blocos] = genesis;
+	contador_blocos++;
+}
 
-	// ARRAY E CONTADOR DAS TRANSACOES PENDENTES
-	transacao transacoes_pendentes[1000];
-	int contador_transacoes_pendentes = 0;
+int main() {
+	contador_blocos = 0;
+    contador_transacoes_pendentes = 0;
+
+	minerar_bloco_genesis();
 
 	int opcao = 1;
 	do {
