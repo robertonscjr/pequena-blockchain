@@ -41,17 +41,20 @@ void minerar_bloco() {
 	int i;
 	//ITERA A PARTIR DA QUANTIDADE DE TRANSACOES PENDENTES PULANDO O BLOCO GENESIS
 	for(i = 1; i < contador_transacoes_pendentes+1; i++){
-	    mytinyblockchain.cadeia[i + contador_blocos].index = i + contador_blocos;
-    	mytinyblockchain.cadeia[i + contador_blocos].timestamp = _obter_timestamp();
+		bloco block = mytinyblockchain.cadeia[i + contador_blocos];
 
-	    mytinyblockchain.cadeia[i + contador_blocos].dado[i + contador_blocos].sender = transacoes_pendentes[i + contador_blocos].sender;
-    	mytinyblockchain.cadeia[i + contador_blocos].dado[i + contador_blocos].receiver = transacoes_pendentes[i + contador_blocos].receiver; 
-		mytinyblockchain.cadeia[i + contador_blocos].dado[i + contador_blocos].valor = transacoes_pendentes[i + contador_blocos].valor;
+	    block.index = i + contador_blocos;
+    	block.timestamp = _obter_timestamp();
+
+	    block.dado[i + contador_blocos].sender = transacoes_pendentes[i + contador_blocos].sender;
+    	block.dado[i + contador_blocos].receiver = transacoes_pendentes[i + contador_blocos].receiver; 
+		block.dado[i + contador_blocos].valor = transacoes_pendentes[i + contador_blocos].valor;
 		
-	    mytinyblockchain.cadeia[i + contador_blocos].quantidade_transacoes;
-	    mytinyblockchain.cadeia[i + contador_blocos].hash_anterior = mytinyblockchain.cadeia[i-1 + contador_blocos].hash;
-	    mytinyblockchain.cadeia[i + contador_blocos].hash = _obter_hash(mytinyblockchain.cadeia[i+ contador_blocos].index, mytinyblockchain.cadeia[i+ contador_blocos].timestamp, mytinyblockchain.cadeia[i + contador_blocos].hash_anterior);
+	    block.quantidade_transacoes;
+	    block.hash_anterior = mytinyblockchain.cadeia[i-1 + contador_blocos].hash;
+	    block.hash = _obter_hash(block.index, block.timestamp, block.hash_anterior);
         
+		printf( "Block #%s: %s" , block.index, block.hash);
 	    contador_blocos += 1;
         }
 		
