@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <time.h>
+#include <memory.h>
+#include <string.h>
+#include <openssl/sha.h>
 
 typedef struct {
 	int sender;
@@ -12,8 +15,8 @@ typedef struct {
 	int timestamp;
 	transacao dado[1000];
 	int quantidade_transacoes;
-	int hash_anterior;
-	int hash;
+	char hash_anterior[1000];
+	char hash[1000];
 } bloco;
 
 typedef struct {
@@ -25,6 +28,22 @@ int contador_blocos;
 
 transacao transacoes_pendentes[1000];
 int contador_transacoes_pendentes;
+
+char *hash(char hash_anterior[]){
+    int i = 0;
+    unsigned char temp[SHA_DIGEST_LENGTH];
+    char buf[SHA_DIGEST_LENGTH*2];
+
+    memset(buf, 0x0, SHA_DIGEST_LENGTH*2);
+    memset(temp, 0x0, SHA_DIGEST_LENGTH);
+    SHA1((unsigned char *)hash_anterior, strlen(hash_anterior), temp);
+    for (i=0; i < SHA_DIGEST_LENGTH; i++) {
+	    sprintf((char*)&(buf[i*2]), "%02x", temp[i]);
+	}
+
+	return buf;
+}
+
 
 void enviar_dinheiro() {
 	printf("Enviar dinheiro\n");
@@ -99,9 +118,9 @@ void minerar_bloco() {
 
 	new_block.index = contador_blocos;
     new_block.timestamp = _obter_timestamp();
-	new_block.hash_anterior = current_block.hash;
-	new_block.hash = _obter_hash(new_block.index, new_block.timestamp,
-					             new_block.hash_anterior);
+
+	strcpy(new_block.hash_anterior, current_block.hash);
+	strcpy(new_block.hash, hash(new_block.hash_anterior));
 
 	printf("Novo bloco instanciado, copiando transacoes do ultimo bloco\n");
 
@@ -128,7 +147,7 @@ void minerar_bloco() {
 	contador_blocos++;
 	contador_transacoes_pendentes = 0;
 
-	printf( "Bloco %d registrado. Hash: %d\n" , new_block.index, new_block.hash);
+	printf( "Bloco %d registrado. Hash: %s\n" , new_block.index, new_block.hash);
 }
 
 void exibir_transacoes_pendentes() {
@@ -155,10 +174,6 @@ int _obter_timestamp() {
 	return (int)time(NULL);
 }
 
-int _obter_hash(int index, int timestamp, int hash_anterior) {
-	return timestamp * (hash_anterior + index);
-}
-
 void minerar_bloco_genesis() {
 	bloco genesis;
 	genesis.index = contador_blocos;
@@ -176,9 +191,8 @@ void minerar_bloco_genesis() {
 	genesis.dado[1].valor = 1000;
 	genesis.quantidade_transacoes = 2;
 
-	genesis.hash_anterior = 0;
-	genesis.hash = _obter_hash(genesis.index, genesis.timestamp,
-							   genesis.hash_anterior);
+	strcpy(genesis.hash_anterior, "genesis");
+	strcpy(genesis.hash, hash(genesis.hash_anterior));
 
 	mytinyblockchain.cadeia[contador_blocos] = genesis;
 	contador_blocos++;
