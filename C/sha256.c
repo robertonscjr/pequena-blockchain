@@ -145,9 +145,8 @@ void sha256_final(SHA256_CTX *ctx, BYTE hash[])
 }
 
 
-BYTE[64] sha256(char* text)
+void sha256(char* text)
 {
-
 	BYTE buf[SHA256_BLOCK_SIZE];
 	SHA256_CTX ctx;
 
@@ -155,5 +154,6 @@ BYTE[64] sha256(char* text)
 	sha256_update(&ctx, text, strlen(text));
 	sha256_final(&ctx, buf);
 
-	printf("%s\n", buf);
+	printf("%s\n", buf); // visualizar hash
+	// o problema se rezume em tentar retornar o valor do hash contido em buf	
 }

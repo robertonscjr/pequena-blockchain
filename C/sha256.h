@@ -19,6 +19,6 @@ typedef struct {
 } SHA256_CTX;
 
 /*********************** FUNCTION DECLARATIONS **********************/
-BYTE[64] sha256(char* text);
+void sha256(char* text);
 
 #endif  
