@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include "sha256.h"
 
 typedef struct {
 	int sender;
