@@ -1,3 +1,7 @@
+main :: IO ()
+main = do
+    menu
+
 menu :: IO ()
 menu = do
       putStrLn "MyTinyBlockchain"
