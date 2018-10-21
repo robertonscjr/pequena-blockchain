@@ -13,6 +13,11 @@ data Bloco = Bloco { index :: Int
 
 data Blockchain = Blockchain { cadeia :: [Bloco] } deriving (Show)
 
+addTransacaoPendente :: Transacao -> TransacoesPendentes -> TransacoesPendentes 
+addTransacaoPendente transacao pool = TransacoesPendentes (transacoes pool ++ [transacao])
+
+data TransacoesPendentes = TransacoesPendentes { transacoes :: [Transacao] } deriving (Show)
+
 -- BLOCKCHAIN FUNCTIONS
 genesis = Bloco 0 0 [Transacao 7 0 1000, Transacao 7 1 1000] "before" "genesis"
 
