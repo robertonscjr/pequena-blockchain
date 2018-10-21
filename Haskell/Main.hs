@@ -1,3 +1,5 @@
+import System.IO  
+
 -- DATA TYPES
 data Transacao = Transacao {
 sender :: Int,
@@ -30,9 +32,14 @@ addTransacao transacao pool = Transacoes (transacoes pool ++ [transacao])
 addBloco :: Bloco -> Blockchain -> Blockchain
 addBloco bloco chain = Blockchain (cadeia chain ++ [bloco])
 
+chain_file = "chain"
+pool_file = "pool"
+
 -- MAIN
 main :: IO ()
 main = do
+   writeFile chain_file ""
+   writeFile pool_file ""
    mytinyblockchain
 
 -- MENU
@@ -80,6 +87,8 @@ enviarDinheiroIO = do
    
    putStrLn "Valor: "
    valor <- getLine
+
+   appendFile pool_file $ sender ++ "," ++ valor ++ "\n"
    
    putStrLn "Transacao adicionada ao buffer de transacoes a serem mineradas"
    putStrLn "Para efetivar a transacao, minere um bloco"
@@ -94,7 +103,7 @@ exibirSaldoIO = do
 minerarBlocoIO :: IO()
 minerarBlocoIO = do
    putStrLn "Minera bloco"
-   
+
    putStrLn "Recebendo ultimo bloco"
    putStrLn "Instanciando novo bloco"
    putStrLn "Novo bloco instanciado, copiando transacoes do ultimo bloco"
@@ -108,7 +117,9 @@ exibirTransacoesPendentesIO = do
    putStrLn "Exibir transações pendentes"
    
    putStrLn "Transacoes pendentes:"
-   putStrLn "????"
+   pool <- readFile pool_file
+      
+   putStrLn pool
 
 sairIO :: IO()
 sairIO = do
