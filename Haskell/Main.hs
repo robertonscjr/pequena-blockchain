@@ -126,7 +126,7 @@ minerarBlocoIO = do
    -- MINERAR BLOCO (VICTOR)
    putStrLn "Registrando novo bloco na blockchain"
 
-<<<<<<< HEAD
+
     chain <- (readFile "chain.txt")
     txs_raw <- (readFile "pool.txt")             
     let chain_params = init (split chain '\n')
@@ -142,13 +142,13 @@ minerarBlocoIO = do
   
     writeFile "pool.txt" ""
     updateBlockchainIO
-=======
+
 updateBlockchainIO :: IO()
 updateBlockchainIO = do
    new_chain <- readFile "chain_tmp.txt"
    writeFile "chain.txt" new_chain
    appendFile "chain_log.txt" new_chain
->>>>>>> bea2b6aedd70476ad7b0350b61d118818c94f5f2
+
 
 exibirTransacoesPendentesIO :: IO()
 exibirTransacoesPendentesIO = do
