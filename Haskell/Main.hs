@@ -100,7 +100,25 @@ enviarDinheiroIO = do
 exibirSaldoIO :: IO()    
 exibirSaldoIO = do
    putStrLn "Exibir saldo"
-   -- EXIBIR SALDO (LUCAS)
+   chain <- (readFile "chain.txt")
+   let chain_params = init (split chain '\n')
+   let params = chain_params !! 0
+   let formatted = split params '-'
+   let bloco = Bloco (read (formatted !! 0)) (read (formatted !! 1)) (obterTransacoesIO (formatted !! 2)) (formatted !! 3) (formatted !! 4)
+
+   let txs = dados bloco
+
+   let alice_plus _txs = sum [valor x | x <- _txs, receiver x == 0]
+   let alice_minus _txs = sum [valor x | x <- _txs, sender x == 0]
+   let alice_sum = show (alice_plus txs - alice_minus txs)
+
+   let bob_plus _txs = sum [valor x | x <- _txs, receiver x == 1]
+   let bob_minus _txs = sum [valor x | x <- _txs, sender x == 1]
+   let bob_sum = show (bob_plus txs - bob_minus txs)
+
+   putStrLn ("Alice: " ++ alice_sum)
+   putStrLn ("Bob: " ++ bob_sum)
+
 
 minerarBlocoIO :: IO()
 minerarBlocoIO = do
