@@ -97,13 +97,16 @@ enviarDinheiroIO = do
    putStrLn "Enviar dinheiro"
 
    putStrLn "Sender (0 para Alice e 1 para Bob): "
-
+s
    sender <- getLine
+
 
    putStrLn "Valor: "
 
    valor <- getLine
+
    appendFile "pool.txt" $ sender ++ "," ++ valor ++ "\n"
+
 
    putStrLn "Transacao adicionada ao buffer de transacoes a serem mineradas"
 
@@ -147,7 +150,10 @@ updateBlockchainIO = do
 exibirTransacoesPendentesIO :: IO()
 exibirTransacoesPendentesIO = do
    putStrLn "Exibir transações pendentes"
-   -- EXIBIR TRANSACOES PENDENTES (GUILHERME)
+   putStrLn "Transacoes pendentes:"
+   txs_raw <- (readFile "pool.txt")
+      
+   putStrLn txs_raw
 
 sairIO :: IO()
 sairIO = do
