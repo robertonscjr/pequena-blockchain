@@ -1,4 +1,4 @@
-import System.IO  
+﻿import System.IO  
 import Data.List
 
 -- DATA TYPES
@@ -95,7 +95,22 @@ execute n = doExec $ filter (\(i, _) -> i == n) opcoes
 enviarDinheiroIO :: IO ()
 enviarDinheiroIO = do
    putStrLn "Enviar dinheiro"
-   -- ENVIAR DINHEIRO (CAIO)
+
+   putStrLn "Sender (0 para Alice e 1 para Bob): "
+s
+   sender <- getLine
+
+
+   putStrLn "Valor: "
+
+   valor <- getLine
+
+   appendFile "pool.txt" $ sender ++ "," ++ valor ++ "\n"
+
+
+   putStrLn "Transacao adicionada ao buffer de transacoes a serem mineradas"
+
+   putStrLn "Para efetivar a transacao, minere um bloco"
 
 exibirSaldoIO :: IO()    
 exibirSaldoIO = do
