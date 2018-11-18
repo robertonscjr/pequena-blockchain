@@ -39,5 +39,20 @@ buildBlockchain(Cadeia) :- Cadeia = [].
 addBloco(Cadeia, Bloco, [Bloco|Cadeia]).
 
 
-main :-
+main :- read_line_to_string(user_input, opcoes(user_input, Funcao_chamada)),
+
+
+
 buildBlockchain(Cadeia), buildBlocoGenesis(I, T, Transacoes, HashA, Hash), Genesis = [I, T, Transacoes, HashA, Hash], addBloco(Cadeia, Genesis, Blockchain).
+
+
+opcoes(Opcao, Funcao):- 
+    write_ln("Enviar dinheiro").
+    write_ln("Exibir saldo").
+    write_ln("Minerar bloco").
+    write_ln("Exibir transacoes pendentes").
+    write_ln("Sair").
+
+    
+
+    
