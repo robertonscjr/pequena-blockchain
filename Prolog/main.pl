@@ -52,7 +52,11 @@ opcoes(Opcao, Funcao):-
     write_ln("Minerar bloco").
     write_ln("Exibir transacoes pendentes").
     write_ln("Sair").
-
-    
-
-    
+        (
+    (Opcao =:= 1 , enviar_dinheiro);
+    (Opcao =:= 2, exibir_saldo);
+    (Opcao =:= 3, minerar_bloco);
+    (Opcao =:= 4, exibir_saldo);
+    (Opcao =:= 5, break);
+    (writeln("Opção inválida, digite novamente"), read(Escolha), opcoes(Escolha))
+    ).
