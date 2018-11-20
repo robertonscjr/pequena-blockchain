@@ -79,7 +79,7 @@ opcoes(Opcao):-
    (Opcao =:= 1 , enviar_dinheiro(Sender));
    (Opcao =:= 2, exibir_saldo);
    (Opcao =:= 3, minerar_bloco);
-   (Opcao =:= 4, exibir_transacoes_pendentes);
+   (Opcao =:= 4, exibir_transacoes_pendentes());
    (Opcao =:= 5, break);
    (writeln("Opção inválida, digite novamente"), read(Escolha), opcoes(Escolha))
    ).
@@ -102,15 +102,11 @@ enviar_dinheiro(Sender) :-
 
 %! Exibir Saldo
 
-exibir_saldo(Pessoa,Pessoa2) :-
+exibir_saldo(Pessoa) :-
 
-  read_line_to_codes(user_input, Codes).
-  string_to_atom(Codes, Atom).
-  atom_number(Atom, Pessoa).
 
-  read_line_to_codes(user_input, Codes).
-  string_to_atom(Codes, Atom).
-  atom_number(Atom, Pessoa2).
 
-  transacao(Pessoa,Pessoa2, Saldo).
 
+%! Exibir Transacoes Pendentes
+
+exibir_transacoes_pendentes().
