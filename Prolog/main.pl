@@ -1,26 +1,12 @@
 :- initialization(main).
 
-%! Lista de transcoes pendentes previamente mineradas
-
-transacao(1,0,100).
-transacao(0,1,200).
-transacao(0,1,300).
-transacao(1,0,400).
-transacao(1,0,500).
-transacao(1,0,600).
-
-transacaoPendente(0,1,100).
-transacaoPendente(1,0,50).
-transacaoPendente(1,0,25).
-
-
 %! ----------- Funcoes relacionadas a Bloco -----------
 
 %! Cria Bloco Genesis
 buildBlocoGenesis(0, 0, [(7,0,1000), (7,1,1000)] , "before", "hash").
 
 %! Cria Bloco
-buildBloco(Index, TimeStamp, Transacoes ,HashAnterior, Hash).
+% buildBloco(Index, TimeStamp, Transacoes ,HashAnterior, Hash).
 
 %! Cria Bloco e verifica se o Index já existe na blockchain, se existir verifica na proxima posicao até chegar em um Index nao existente na blockchain, quando encontra constroi o bloco.
 buildBlocoNaBlockchain(N, TimeStamp, Transacoes, HashAnterior, Hash):- 
@@ -42,8 +28,6 @@ buildListaTransacaoPendentes(Transacao):- Transacao = [].
 %! Adiciona uma nova transacao na lista de transações pendentes.
 addTransacaoPendente(TransacaoPendente, TransacoesPen, [TransacoesPen|TransacaoPendente]).
 
-%! Obter transacao
-obterTransacao()
 
 %! Transfere as transacoes pendentes para a lista de transcoes feitas no bloco.
 transfereTransacoesPendentes([],L1,L2).
@@ -60,53 +44,73 @@ buildBlockchain(Cadeia) :- Cadeia = [].
 %! Adiciona bloco na blockchain
 addBloco(Cadeia, Bloco, [Bloco|Cadeia]).
 
+%! Lista de transacoes pendentes previamente mineradas
+transacao(T) :- T = [[1,1],[0,2],[0,3],[1,4],[1,5],[1,6]].
+
+transacao(Valor, X):- Valor is (X * 100).
+
+exibir_saldo(_, [], Saldo, Saldo).
+%! Faz operacoes de soma e subtracao para os saldos da pessoa 1 e 0
+exibir_saldo(X, [[H1, H2] | T], Saldo, Total) :- H1 == X , transacao(Valor, H2), NSALDO is Saldo + Valor, exibir_saldo(1, T, NSALDO, Total).  
+exibir_saldo(X, [[H1, H2] | T], Saldo, Total) :- H1 =\= X , transacao(Valor, H2), NSALDO is Saldo - Valor, exibir_saldo(1, T, NSALDO, Total).  
+
 %! Menu
 main :- 
-  write_ln("1.Enviar dinheiro (nao implementado)"),
-  write_ln("2.Exibir saldo"),
-  write_ln("3.Minerar bloco (nao implementado)"),
-  write_ln("4.Exibir transacoes pendentes"),
-  write_ln("5.Sair"),
+  writeln("1.Enviar dinheiro (nao implementado)"),
+  writeln("2.Exibir saldo"),
+  writeln("3.Minerar bloco (nao implementado)"),
+  writeln("4.Exibir transacoes pendentes"),
+  writeln("5.Sair"),
 
   read_line_to_codes(user_input, Codes),
   string_to_atom(Codes, Atom),
-  atom_number(Atom, Opcao).
+  atom_number(Atom, Opcao),
 
   opcoes(Opcao).
 
 opcoes(Opcao):-
    (
-   (Opcao =:= 1 , enviar_dinheiro(Sender));
-   (Opcao =:= 2, exibir_saldo);
-   (Opcao =:= 3, minerar_bloco);
-   (Opcao =:= 4, exibir_transacoes_pendentes());
+    (Opcao =:= 1 , enviar_dinheiro());
+    (Opcao =:= 2, exibir_o_saldo());
+    (Opcao =:= 3, minerar_bloco());
+    (Opcao =:= 4, exibir_transacoes_pendentes());
    (Opcao =:= 5, break);
    (writeln("Opção inválida, digite novamente"), read(Escolha), opcoes(Escolha))
    ).
 
-buildBlockchain(Cadeia),
-buildBlocoGenesis(I, T, Transacoes, HashA, Hash), 
-Genesis = [I, T, Transacoes, HashA, Hash], 
-addBloco(Cadeia, Genesis, Blockchain).
-
-
-%! Enviar dinheiro
-
-enviar_dinheiro(Sender) :-
-  write_ln("Enviar dinheiro").
-  write_ln("Sender(0 para Alice e 1 para Bob): ").
-  
-  read_line_to_codes(user_input, Codes).
-  string_to_atom(Codes, Atom).
-  atom_number(Atom, Valor).
 
 %! Exibir Saldo
+exibir_o_saldo() :- 
+    transacao(T),
+    writeln("Digite o numero para qual pessoa voce deseja calcular o saldo. (0 para Alice, 1 para Bob)"),
+    read_line_to_codes(user_input, Codes),
+    string_to_atom(Codes, Atom),
+    atom_number(Atom, X),
 
-exibir_saldo(Pessoa) :-
+    exibir_saldo(X, T, 0, Total),
+    write_ln(Total).
 
+%! Transacoes Pendentes
 
+transacaoPendente(0,1,100).
+transacaoPendente(1,0,50).
+transacaoPendente(1,0,25).
+transacaoPendente(0,1,300).
+transacaoPendente(0,1,150).
+transacaoPendente(1,0,400).
+transacaoPendente(1,0,500).
+transacaoPendente(1,0,800).
+transacaoPendente(0,1,1000).
 
 
 %! Exibir Transacoes Pendentes
+% exibir_transacoes_pendentes():- 
 
-exibir_transacoes_pendentes().
+
+
+
+
+% buildBlockchain(Cadeia),
+% buildBlocoGenesis(I, T, Transacoes, HashA, Hash), 
+% Genesis = [I, T, Transacoes, HashA, Hash], 
+% addBloco(Cadeia, Genesis, Blockchain).
