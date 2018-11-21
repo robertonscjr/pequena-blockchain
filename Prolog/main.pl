@@ -83,25 +83,3 @@ exibir_o_saldo() :-
 
     exibir_saldo(X, T, 0, Total),
     write_ln(Total).
-
-%! Transacoes Pendentes
-
-transacaoPendente(0,1,100).
-transacaoPendente(1,0,50).
-transacaoPendente(1,0,25).
-transacaoPendente(0,1,300).
-transacaoPendente(0,1,150).
-transacaoPendente(1,0,400).
-transacaoPendente(1,0,500).
-transacaoPendente(1,0,800).
-transacaoPendente(0,1,1000).
-
-%! Exibir Transacoes Pendentes
-
-% exibir_transacoes_pendentes():- 
-
-
-% buildBlockchain(Cadeia),
-% buildBlocoGenesis(I, T, Transacoes, HashA, Hash), 
-% Genesis = [I, T, Transacoes, HashA, Hash], 
-% addBloco(Cadeia, Genesis, Blockchain).
